@@ -1,13 +1,28 @@
 var httpRequest = require("./includes/httpRequest.js");
 var info = require("./includes/settings.js");
 var orm = require("./model/database.js");
+var cache = require("./cache/nosql.js");
 
 function movieSearch(response, text) {
-    httpRequest.getResponse(info.settings.IMDB_URL, '/2.1/Movie.search/en/json/' + info.settings.IMDB_KEY + '/', text, response, 
-        function(text, body){
-            var receivedObject = JSON.parse(body);
-            console.log('callback: ' + text);   
+    
+
+    cache.findSearch(text,
+        function(err, objects){
+            if(objects.length>0){
+                console.log('Document closed');
+                response.writeHead(200, {"Content-Type": "application/json"});
+                response.write(objects[0].result);
+                response.end(); 
+            }
+            else{
+                httpRequest.getResponse(info.settings.IMDB_URL, '/2.1/Movie.search/en/json/' + info.settings.IMDB_KEY + '/', text, response, 
+                    function(text, body){
+                    cache.saveSearch(text, body);
+                });
+            }
+        
     });
+
 }
 
 function movieGetInfo(response, text) {

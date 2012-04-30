@@ -6,7 +6,8 @@ var settings = {
   DATABASE_USER: 'cine',
   DATABASE_PASSWORD: '123456A*',
   DATABASE_PORT: '8441',
-  DATABASE_HOST: 'instance12442.db.xeround.com'
+  DATABASE_HOST: 'instance12442.db.xeround.com',
+  MONGODB_MONGOLAB: 'mongodb://cine:123456A*@ds033067.mongolab.com:33067/cinemius'
 };
 
 exports.settings = settings;
