@@ -1,8 +1,8 @@
 // define a Movie
 function Movie(db){
 	var movie = db.define("movie", {
-		"id_movie"		: { "type": "int" },
-		"id_imdb"       : { "type": "string" },
+        "id_movie"      : { "type": "int" },
+        "id_imdb"       : { "type": "string" },
         "id_imdb_api"   : { "type": "int" },
         "name"          : { "type": "string" },
         "overview"      : { "type": "text" },
@@ -165,11 +165,28 @@ function Rating(db){
     var Rating = db.define("movie_rating", {
         "id_movie_rating"   : { "type": "int" },
         "id_imdb_api"       : { "type": "int" },
-        "rating"            : { "type": "int" },
+        "rating"            : { "type": "float" },
         "votes"             : { "type": "int" },
         "last_modified_at"  : { "type": "string" }
     });
     return Rating;
+}
+
+function Studio(db){
+    var Studio = db.define("studio", {
+        "id_studio"     : { "type": "int" },
+        "name"          : { "type": "string" }
+    });
+    return Studio;
+}
+
+function movieStudio(db){
+    var movieStudio = db.define("movie_studio", {
+        "id_movie_studio"   : { "type": "int" },
+        "id_imdb_api"       : { "type": "int" },
+        "id_studio"         : { "type": "int" }
+    });
+    return movieStudio;
 }
 
 
@@ -189,3 +206,6 @@ exports.movieLanguageSpoken = movieLanguageSpoken;
 exports.Money = Money;
 exports.Poster = Poster;
 exports.Rating = Rating;
+
+exports.Studio = Studio;
+exports.movieStudio = movieStudio;

@@ -35,9 +35,9 @@ function createMovie(id_imdb, id_imdb_api, name, overview, keywords, laguage, ce
                 });
                 newMovie.save(function (err, movieCopy) {
                     if (!err) {
-                        console.log("Saved! ID=" + movieCopy.id); 
+                        console.log("Saved movie object - ID=" + movieCopy.id); 
                     } else {
-                        console.log("Something went wrong...");
+                        console.log("Something went wrong with movie object");
                         console.dir(err);
                     }
                 });
@@ -67,7 +67,7 @@ function createBackdrop(id_imdb_api, id_imgobject, type, size, height, width, ur
                 });
                 newObject.save(function (err, objectCopy) {
                     if (!err) {
-                        console.log("Saved! ID=" + objectCopy.id); 
+                        console.log("Saved backdrop object - ID=" + objectCopy.id); 
                     } else {
                         console.log("Something went wrong...");
                         console.dir(err);
@@ -96,7 +96,7 @@ function createCast(id_cast, name, profile_remote_server){
                 });
                 newObject.save(function (err, objectCopy) {
                     if (!err) {
-                        console.log("Saved! ID=" + objectCopy.id); 
+                        console.log("Saved cast object - ID=" + objectCopy.id); 
                     } else {
                         console.log("Something went wrong...");
                         console.dir(err);
@@ -127,7 +127,7 @@ function createCastRelationship(id_imdb_api, id_cast, job, character){
                 });
                 newObject.save(function (err, objectCopy) {
                     if (!err) {
-                        console.log("Saved! ID=" + objectCopy.id); 
+                        console.log("Saved cast relationship object - ID=" + objectCopy.id); 
                     } else {
                         console.log("Something went wrong...");
                         console.dir(err);
@@ -157,7 +157,7 @@ function createCountry(code, name){
                 });
                 newObject.save(function (err, objectCopy) {
                     if (!err) {
-                        console.log("Saved! ID=" + objectCopy.id); 
+                        console.log("Saved country object - ID=" + objectCopy.id); 
                     } else {
                         console.log("Something went wrong...");
                         console.dir(err);
@@ -185,7 +185,7 @@ function createCountryRelationship(id_imdb_api, code){
                 });
                 newObject.save(function (err, objectCopy) {
                     if (!err) {
-                        console.log("Saved! ID=" + objectCopy.id); 
+                        console.log("Saved country relationship object - ID=" + objectCopy.id); 
                     } else {
                         console.log("Something went wrong...");
                         console.dir(err);
@@ -214,7 +214,7 @@ function createGenre(id_genre, name){
                 });
                 newObject.save(function (err, objectCopy) {
                     if (!err) {
-                        console.log("Saved! ID=" + objectCopy.id); 
+                        console.log("Saved genre object - ID=" + objectCopy.id); 
                     } else {
                         console.log("Something went wrong...");
                         console.dir(err);
@@ -244,7 +244,7 @@ function createGenreRelationship(id_imdb_api, id_genre){
                 });
                 newObject.save(function (err, objectCopy) {
                     if (!err) {
-                        console.log("Saved! ID=" + objectCopy.id); 
+                        console.log("Saved genre relationship object - ID=" + objectCopy.id); 
                     } else {
                         console.log("Something went wrong...");
                         console.dir(err);
@@ -275,7 +275,7 @@ function createInternet(id_imdb_api, homepage, trailer, last_modified_at){
                 });
                 newObject.save(function (err, objectCopy) {
                     if (!err) {
-                        console.log("Saved! ID=" + objectCopy.id); 
+                        console.log("Saved internet object - ID=" + objectCopy.id); 
                     } else {
                         console.log("Something went wrong...");
                         console.dir(err);
@@ -305,7 +305,7 @@ function createLanguageSpoken(code, name, native_name){
                 });
                 newObject.save(function (err, objectCopy) {
                     if (!err) {
-                        console.log("Saved! ID=" + objectCopy.id); 
+                        console.log("Saved language spoken object - ID=" + objectCopy.id); 
                     } else {
                         console.log("Something went wrong...");
                         console.dir(err);
@@ -335,7 +335,7 @@ function  createMovieLanguageSpoken(id_imdb_api, code){
                 });
                 newObject.save(function (err, objectCopy) {
                     if (!err) {
-                        console.log("Saved! ID=" + objectCopy.id); 
+                        console.log("Saved language spoke relationship object - ID=" + objectCopy.id); 
                     } else {
                         console.log("Something went wrong...");
                         console.dir(err);
@@ -366,7 +366,7 @@ function  createMoney(id_imdb_api, budget, revenues, last_modified_at){
                 });
                 newObject.save(function (err, objectCopy) {
                     if (!err) {
-                        console.log("Saved! ID=" + objectCopy.id); 
+                        console.log("Saved money object - ID=" + objectCopy.id); 
                     } else {
                         console.log("Something went wrong...");
                         console.dir(err);
@@ -399,7 +399,98 @@ function  createPoster(id_imdb_api, type, size, height, width, url_remote_server
                 });
                 newObject.save(function (err, objectCopy) {
                     if (!err) {
-                        console.log("Saved! ID=" + objectCopy.id); 
+                        console.log("Saved poster object - ID=" + objectCopy.id); 
+                    } else {
+                        console.log("Something went wrong...");
+                        console.dir(err);
+                    }
+                });
+            }
+        });
+    });
+}
+
+
+
+function  createRating(id_imdb_api, rating, votes, last_modified_at){
+    
+    orm.connect("mysql", client, function (success, db) {
+        if (!success) {
+            console.log("Could not connect to database!");
+            return;
+        }
+        client.query('USE cinemius');
+        var Rating = model.Rating(db);
+        Rating.find({"id_imdb_api": id_imdb_api}, function (object) {
+            if(object === null){
+                var newObject = new Rating({
+                    "id_imdb_api"       : id_imdb_api,
+                    "rating"            : rating,
+                    "votes"             : votes,
+                    "last_modified_at"  : last_modified_at
+                });
+                newObject.save(function (err, objectCopy) {
+                    if (!err) {
+                        console.log("Saved rating object - ID=" + objectCopy.id); 
+                    } else {
+                        console.log("Something went wrong...");
+                        console.dir(err);
+                    }
+                });
+            }
+        });
+    });
+}
+
+
+
+function  createStudio(id_studio, name){
+    
+    orm.connect("mysql", client, function (success, db) {
+        if (!success) {
+            console.log("Could not connect to database!");
+            return;
+        }
+        client.query('USE cinemius');
+        var Studio = model.Studio(db);
+        Studio.find({"id_studio": id_studio}, function (object) {
+            if(object === null){
+                var newObject = new Studio({
+                    "id_studio" : id_studio,
+                    "name"      : name
+                });
+                newObject.save(function (err, objectCopy) {
+                    if (!err) {
+                        console.log("Saved studio object - ID=" + objectCopy.id); 
+                    } else {
+                        console.log("Something went wrong...");
+                        console.dir(err);
+                    }
+                });
+            }
+        });
+    });
+}
+
+
+function  createStudioRelationship(id_studio, id_imdb_api){
+    
+    orm.connect("mysql", client, function (success, db) {
+        if (!success) {
+            console.log("Could not connect to database!");
+            return;
+        }
+        client.query('USE cinemius');
+        var movieStudio = model.movieStudio(db);
+        movieStudio.find({"id_studio": id_studio, "id_imdb_api": id_imdb_api}, function (object) {
+            if(object === null){
+                var newObject = new movieStudio({
+                    "id_studio"     : id_studio,
+                    "id_imdb_api"   : id_imdb_api
+                });
+                newObject.save(function (err, objectCopy) {
+                    if (!err) {
+                        console.log("Saved movie_studio object - ID=" + objectCopy.id); 
                     } else {
                         console.log("Something went wrong...");
                         console.dir(err);
@@ -421,3 +512,10 @@ exports.createGenreRelationship = createGenreRelationship;
 exports.createInternet = createInternet;
 exports.createLanguageSpoken = createLanguageSpoken;
 exports.createMovieLanguageSpoken = createMovieLanguageSpoken;
+
+exports.createMoney = createMoney;
+exports.createPoster = createPoster;
+exports.createRating = createRating;
+
+exports.createStudio = createStudio;
+exports.createStudioRelationship = createStudioRelationship;

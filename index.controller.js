@@ -50,6 +50,20 @@ function movieGetInfo(response, text) {
                     receivedObject[0].trailer, 
                     receivedObject[0].last_modified_at);
                     
+                //saving revenue information
+                orm.createMoney(
+                    receivedObject[0].id, 
+                    receivedObject[0].budget, 
+                    receivedObject[0].revenue, 
+                    receivedObject[0].last_modified_at);
+                    
+                //saving rating information
+                orm.createRating(
+                    receivedObject[0].id, 
+                    receivedObject[0].rating, 
+                    receivedObject[0].votes, 
+                    receivedObject[0].last_modified_at);
+                    
                 //saving each backdrop
                 for(var x = 0; x < receivedObject[0].backdrops.length; x++){
                     orm.createBackdrop(
@@ -113,6 +127,29 @@ function movieGetInfo(response, text) {
                     orm.createMovieLanguageSpoken(
                         receivedObject[0].id, 
                         receivedObject[0].languages_spoken[x].code);
+                }
+
+                //saving each poster
+                for(var x = 0; x < receivedObject[0].posters.length; x++){
+                    orm.createPoster(
+                        receivedObject[0].id, 
+                        receivedObject[0].posters[x].image.type, 
+                        receivedObject[0].posters[x].image.size, 
+                        receivedObject[0].posters[x].image.height, 
+                        receivedObject[0].posters[x].image.width, 
+                        receivedObject[0].posters[x].image.url);
+                }
+                
+                 //saving each studio
+                for(var x = 0; x < receivedObject[0].studios.length; x++){
+                       
+                    orm.createStudio(
+                        receivedObject[0].studios[x].id, 
+                        receivedObject[0].studios[x].name);
+                      
+                    orm.createStudioRelationship(
+                        receivedObject[0].studios[x].id,
+                        receivedObject[0].id);
                 }
             }
 
