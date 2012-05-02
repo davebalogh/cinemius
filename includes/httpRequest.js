@@ -1,9 +1,10 @@
 var http = require("http");
 function getResponse(url, path, text, response, callback){
+    
     var options = {
       host: url,
       port: 80,
-      path: path + text
+      path: path
     };
     var body = '';
     var req = http.request(options);
@@ -17,6 +18,7 @@ function getResponse(url, path, text, response, callback){
             response.writeHead(200, {"Content-Type": "application/json"});
             response.write(body);
             response.end();  
+
             if(callback !== null && typeof(callback) === 'function'){
                 callback(text, body);
             }

@@ -6,6 +6,7 @@ var handle = {};
 handle["/"] = controller.index;
 handle["/Movie.search"] = controller.movieSearch;
 handle["/Movie.getInfo"] = controller.movieGetInfo;
+handle["/Movie.trailer"] = controller.movieTrailer;
 
 server.init(router.route, handle);
 

@@ -3,6 +3,12 @@ var info = require("./includes/settings.js");
 var orm = require("./model/database.js");
 var cache = require("./cache/nosql.js");
 
+function movieTrailer(response, text) {
+ 
+    movieGetInfo(response, text);
+
+}
+
 function movieSearch(response, text) {
     
 
@@ -15,7 +21,7 @@ function movieSearch(response, text) {
                 response.end(); 
             }
             else{
-                httpRequest.getResponse(info.settings.IMDB_URL, '/2.1/Movie.search/en/json/' + info.settings.IMDB_KEY + '/', text, response, 
+                httpRequest.getResponse(info.settings.IMDB_URL, '/2.1/Movie.search/en/json/' + info.settings.IMDB_KEY + '/' + text, text, response, 
                     function(text, body){
                     cache.saveSearch(text, body);
                 });
@@ -26,7 +32,7 @@ function movieSearch(response, text) {
 }
 
 function movieGetInfo(response, text) {
-    httpRequest.getResponse(info.settings.IMDB_URL, '/2.1/Movie.getInfo/en/json/' + info.settings.IMDB_KEY + '/', text, response, 
+    httpRequest.getResponse(info.settings.IMDB_URL, '/2.1/Movie.getInfo/en/json/' + info.settings.IMDB_KEY + '/' + text, text, response, 
         function(text, body){
             var receivedObject = JSON.parse(body);
             if(receivedObject.length > 0){
@@ -176,6 +182,7 @@ function index(response, text){
     response.write('Cinemius API 0.1');
     response.end();
 }
+exports.movieTrailer = movieTrailer;
 exports.movieSearch = movieSearch;
 exports.movieGetInfo = movieGetInfo;
 exports.index = index;

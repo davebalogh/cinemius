@@ -11,8 +11,15 @@ Search = new Schema({
 
 var SearchModel = mongoose.model('Search', Search);
 
-exports.Search = SearchModel;
+Trailer = new Schema({
+    text    : String,
+    result  : String
+});
 
+var TrailerModel = mongoose.model('Trailer', Trailer);
+
+exports.Search = SearchModel;
+exports.Trailer = TrailerModel;
 
     
     
