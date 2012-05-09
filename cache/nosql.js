@@ -1,9 +1,10 @@
 var schemas = require("../cache/schemas.js");
 
-function saveSearch(text, result){
+function saveSearch(text, result, date){
     var newSearch = new schemas.Search({
       text      : text,
-      result    : result
+      result    : result,
+      date      : date
     });
     newSearch.save(function(err){
         if (err) { console.log(err); }

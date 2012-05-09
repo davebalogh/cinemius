@@ -14,16 +14,23 @@ function movieSearch(response, text) {
 
     cache.findSearch(text,
         function(err, objects){
+            var diff = 1;
             if(objects.length>0){
-                console.log('Document closed');
-                response.writeHead(200, {"Content-Type": "application/json"});
-                response.write(objects[0].result);
-                response.end(); 
+                var now = new Date();
+                var diff = now.getDate() - objects[objects.length-1].date.getDate();
+                if(diff == 0){
+                    console.log('Document closed');
+                    response.writeHead(200, {"Content-Type": "application/json"});
+                    response.write(objects[objects.length-1].result);
+                    response.end(); 
+                }
             }
-            else{
+            else if(diff > 0){
                 httpRequest.getResponse(info.settings.IMDB_URL, '/2.1/Movie.search/en/json/' + info.settings.IMDB_KEY + '/' + text, text, response, 
                     function(text, body){
-                    cache.saveSearch(text, body);
+                        var now = new Date();
+                        var jsonDate = now.toJSON();
+                        cache.saveSearch(text, body, jsonDate);
                 });
             }
         

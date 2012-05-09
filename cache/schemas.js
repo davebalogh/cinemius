@@ -6,14 +6,16 @@ var mongoose = require('mongoose'),
  
 Search = new Schema({
     text    : String,
-    result  : String
+    result  : String,
+    date    : Date
 });
 
 var SearchModel = mongoose.model('Search', Search);
 
 Trailer = new Schema({
     text    : String,
-    result  : String
+    result  : String,
+    date    : Date
 });
 
 var TrailerModel = mongoose.model('Trailer', Trailer);
