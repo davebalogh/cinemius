@@ -11,9 +11,10 @@ function movieTrailer(response, text) {
 
 function movieSearch(response, text) {
     
-
+    
     cache.findSearch(text,
         function(err, objects){
+
             var diff = 1;
             if(objects.length>0){
                 var now = new Date();
@@ -25,7 +26,9 @@ function movieSearch(response, text) {
                     response.end(); 
                 }
             }
-            else if(diff > 0){
+            
+            if(diff > 0){
+
                 httpRequest.getResponse(info.settings.IMDB_URL, '/2.1/Movie.search/en/json/' + info.settings.IMDB_KEY + '/' + text, text, response, 
                     function(text, body){
                         var now = new Date();
